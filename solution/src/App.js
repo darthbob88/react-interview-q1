@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { getLocations, isNameValid } from "./mock-api/apis";
 import React, { useEffect, useState } from "react";
@@ -16,16 +15,25 @@ function App() {
     getLocations().then(result => setLocations(result));
   }, []);
 
-  const [newPerson, setNewPerson] = useState({ location: "", name: "" });
+  const blankPerson = { location: "", name: "" };
+  const [newPerson, setNewPerson] = useState(blankPerson);
   const [errText, setErrText] = useState("");
   useEffect(() => {
     isNameValid(newPerson.name)
       .then((result) => setErrText(result ? "" : "this name has already been taken"))
   }, [newPerson.name])
 
+  const addPerson = (evt) => {
+    evt.preventDefault();
+    setPeople(prev => [...prev, newPerson]);
+    setNewPerson(blankPerson)
+  }
+
+  const isValidPerson = newPerson.name !== '' && newPerson.location !== '';
+
   return (
     <div className="App">
-      <form>
+      <form onSubmit={addPerson}>
         <label>Name
           <input type='text' value={newPerson.name} onChange={evt => setNewPerson(prev => ({ ...prev, name: evt.target.value }))} />
           <br />
@@ -34,10 +42,25 @@ function App() {
         <br />
         <label>Location
           <select value={newPerson.location} onChange={evt => setNewPerson(prev => ({ ...prev, location: evt.target.value }))}>
+            <option value={""} >Please choose a country</option>
             {locations.map(location => <option value={location} key={location}>{location}</option>)}
           </select>
         </label>
+        <br />
+        <button type='button' onClick={() => setNewPerson({ location: "", name: "" })}>Clear</button>
+        <button type='submit' disabled={!isValidPerson}>Add</button>
       </form>
+
+      <div className='peopleList'>
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Location</th></tr>
+          </thead>
+          <tbody>
+            {people.map(person => <tr key={person.name}><td>{person.name}</td><td>{person.location}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
