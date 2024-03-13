@@ -35,8 +35,17 @@ form.personForm span.validation {
   color: red;
 }
 
+form.personForm div.buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+form.personForm div.buttons button {
+  margin-left: 2rem;
+}
+
 div.peopleList tbody > tr:nth-of-type(odd) {
-  background-color: rgb(237 238 242);
+  background-color: #edeef2;
 }
 
 div.peopleList th,

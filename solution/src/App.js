@@ -55,8 +55,10 @@ function App() {
             {locations.map(location => <option value={location} key={location}>{location}</option>)}
           </select>
         </div>
-        <button type='button' onClick={() => setNewPerson({ location: "", name: "" })}>Clear</button>
-        <button type='submit' disabled={!isValidPerson}>Add</button>
+        <div className='buttons'>
+          <button type='button' onClick={() => setNewPerson({ location: "", name: "" })}>Clear</button>
+          <button type='submit' disabled={!isValidPerson}>Add</button>
+        </div>
       </form>
 
       <div className='peopleList'>
