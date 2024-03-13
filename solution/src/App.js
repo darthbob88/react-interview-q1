@@ -10,6 +10,7 @@ function App() {
   const [people, setPeople] = useState([]);
 
   // This might just be a datalist for freeform input, but I'm going with a select.
+  // If the PM wanted otherwise, PM should have said.
   const [locations, setLocations] = useState([]);
   useEffect(() => {
     getLocations().then(result => setLocations(result));
@@ -18,6 +19,9 @@ function App() {
   const blankPerson = { location: "", name: "" };
   const [newPerson, setNewPerson] = useState(blankPerson);
   const [errText, setErrText] = useState("");
+
+  // This really ought to be debounced so we don't hammer the endpoint on every keystroke
+  // but :effort:
   useEffect(() => {
     isNameValid(newPerson.name)
       .then((result) => setErrText(result ? "" : "this name has already been taken"))
