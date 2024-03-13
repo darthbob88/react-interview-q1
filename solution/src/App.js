@@ -1,23 +1,43 @@
 import logo from './logo.svg';
 import './App.css';
+import { getLocations, isNameValid } from "./mock-api/apis";
+import React, { useEffect, useState } from "react";
 
+// This really ought to be at least three components
+// But I'm not going to that much trouble for a simple test like this.
 function App() {
+
+  // people is an array of {name, location}
+  const [people, setPeople] = useState([]);
+
+  // This might just be a datalist for freeform input, but I'm going with a select.
+  const [locations, setLocations] = useState([]);
+  useEffect(() => {
+    getLocations().then(result => setLocations(result));
+  }, []);
+
+  const [newPerson, setNewPerson] = useState({ location: "", name: "" });
+  const [errText, setErrText] = useState("");
+  useEffect(() => {
+    isNameValid(newPerson.name)
+      .then((result) => setErrText(result ? "" : "this name has already been taken"))
+  }, [newPerson.name])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form>
+        <label>Name
+          <input type='text' value={newPerson.name} onChange={evt => setNewPerson(prev => ({ ...prev, name: evt.target.value }))} />
+          <br />
+          <span className='validation'>{errText}</span>
+        </label>
+        <br />
+        <label>Location
+          <select value={newPerson.location} onChange={evt => setNewPerson(prev => ({ ...prev, location: evt.target.value }))}>
+            {locations.map(location => <option value={location} key={location}>{location}</option>)}
+          </select>
+        </label>
+      </form>
     </div>
   );
 }
