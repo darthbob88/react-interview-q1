@@ -37,20 +37,24 @@ function App() {
 
   return (
     <div className="App">
-      <form onSubmit={addPerson}>
-        <label>Name
-          <input type='text' value={newPerson.name} onChange={evt => setNewPerson(prev => ({ ...prev, name: evt.target.value }))} />
-          <br />
-          <span className='validation'>{errText}</span>
-        </label>
+      <form className='personForm' onSubmit={addPerson}>
+        <div className='flexSection'>
+          <label for="personName">Name</label>
+          <div>
+            <input type='text' name="personName" value={newPerson.name} onChange={evt => setNewPerson(prev => ({ ...prev, name: evt.target.value }))} />
+            <br />
+            <span className='validation'>{errText}</span>
+          </div>
+        </div>
+
         <br />
-        <label>Location
-          <select value={newPerson.location} onChange={evt => setNewPerson(prev => ({ ...prev, location: evt.target.value }))}>
+        <div className='flexSection'>
+          <label for="personLocation">Location</label>
+          <select name="personLocation" value={newPerson.location} onChange={evt => setNewPerson(prev => ({ ...prev, location: evt.target.value }))}>
             <option value={""} >Please choose a country</option>
             {locations.map(location => <option value={location} key={location}>{location}</option>)}
           </select>
-        </label>
-        <br />
+        </div>
         <button type='button' onClick={() => setNewPerson({ location: "", name: "" })}>Clear</button>
         <button type='submit' disabled={!isValidPerson}>Add</button>
       </form>

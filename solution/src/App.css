@@ -1,5 +1,38 @@
 .App {
-  text-align: center;
+  text-align: justify;
+  width: 60vw;
+  margin: 0 auto;
+}
+
+div.peopleList,
+form.personForm {
+  margin-top: 2rem;
+}
+div.peopleList,
+div.peopleList table,
+form.personForm {
+  width: inherit;
+}
+
+form.personForm div.flexSection {
+  display: flex;
+}
+form.personForm div.flexSection *:nth-child(2) {
+  flex: 70%;
+}
+
+form.personForm label {
+  flex: 30%;
+  text-align: right;
+  padding-right: 1rem;
+}
+
+form.personForm input[type="text"] {
+  width: calc(100% - 0.5rem);
+}
+
+form.personForm span.validation {
+  color: red;
 }
 
 div.peopleList tbody > tr:nth-of-type(odd) {
@@ -8,6 +41,8 @@ div.peopleList tbody > tr:nth-of-type(odd) {
 
 div.peopleList th,
 div.peopleList td {
+  /* Px aren't perfect for responsiveness and scaling,
+  but we can get away with it on reasonable viewports */
   border: 1px solid rgb(160 160 160);
   padding: 8px 10px;
 }
